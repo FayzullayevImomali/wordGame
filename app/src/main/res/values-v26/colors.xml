@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="TextStyle">
+        <item name="android:textColor">#fff</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:background">@drawable/shape_for_text</item>
+        <item name="android:layout_width">40sp</item>
+        <item name="android:layout_height">40sp</item>
+        <item name="android:layout_marginHorizontal">3dp</item>
+    </style>
+
+    <style name="Keyboard">
+        <item name="android:textColor">#fff</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:background">@drawable/shape_for_text</item>
+        <item name="android:layout_width">43sp</item>
+        <item name="android:layout_height">43sp</item>
+        <item name="android:layout_margin">5dp</item>
+    </style>
+</resources>
