@@ -2,6 +2,7 @@ package com.fayzullayev.word_game_app
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.GridLayout
 import android.widget.ImageView
@@ -79,6 +80,7 @@ class MainActivity : AppCompatActivity() {
             var child = binding.variantGroup.getChildAt(index) as TextView
             val letter = gameController.getVariant()[index]
             child.text = letter.toString().uppercase()
+            child.tag = index
             child.visible()
         }
         // Show level and coins
@@ -89,45 +91,83 @@ class MainActivity : AppCompatActivity() {
 
     fun loadAction() {
         var answerState = 0
+        var answerControl = 0
+        var tempState = 0
+
         val answerSize = gameController.getAnsSize()
         for (i in 0 until  binding.variantGroup.childCount) {
             val variant = binding.variantGroup.getChildAt(i) as TextView
-            variant.id = i
+            variant.tag = i
+
 
             variant.setOnClickListener{
-                if(answerState < answerSize) {
+                if(answerState < answerSize ) {
+
                     variant.inVisible()
                     val letter = variant.text
                     val textView =  binding.answerGroup.getChildAt(answerState) as TextView
+                    answerState = tempState
                     textView.text = letter
-                    textView.id = variant.id
+                    textView.tag = variant.tag
                     answerState++
-
+                    tempState++
 
                     if(answerState == answerSize) {
-                        val userAnswer = getUserAnswer()
-                        if(gameController.checkAnswer(userAnswer)){
-                            loadView()
+                       if(gameController.isFinish()) {
+                           Toast.makeText(this,"O'yin tugadi",Toast.LENGTH_SHORT).show()
                         } else {
-                            Toast.makeText(this, "Incorrect answer", Toast.LENGTH_SHORT).show()
+                           val userAnswer = getUserAnswer()
+                           if(gameController.checkAnswer(userAnswer)){
+                               loadView()
+                               loadAction()
+                           }   else {
+                               Toast.makeText(this, "Incorrect Answer", Toast.LENGTH_SHORT).show()
+                           }
                         }
                     }
                 }
             }
         }
-        // Return letter's to own place
+         //Return letter's to own place
         for (i in 0 until binding.answerGroup.childCount) {
             val answerField = binding.answerGroup.getChildAt(i) as TextView
+            answerField.tag = i
+
             answerField.setOnClickListener {
-                answerField.text = ""
-//                answerField.text  = (answerField.id).toString();
-                val variantKeyboard = binding.variantGroup.getChildAt(answerField.id) as TextView
-                if(variantKeyboard.visibility == View.INVISIBLE) {
-                    variantKeyboard.visible()
-                    answerState --
+                if(answerField.text != "") {
+                    answerField.text = ""
+//               answerField.text  = (answerField.id).toString();
+                    val indicator = answerField.tag.toString().toInt();
+                    val variantKeyboard = binding.variantGroup.getChildAt(indicator) as TextView
+                    if(variantKeyboard.visibility == View.INVISIBLE) {
+                        variantKeyboard.visible()
+                        answerControl = answerField.tag.toString().toInt()
+                        answerState --;
+                        tempState--;
+                        if(answerState != answerControl) {
+                            answerState = answerControl
+                        }
+                        Log.d("taaaag", "loadAction: " + answerState);
+
+                    }
                 }
             }
 
         }
+
+//        for(i in 0 until binding.answerGroup.childCount) {
+//            val childAnswer = binding.answerGroup.getChildAt(i) as TextView
+//            childAnswer.setOnClickListener {
+//                for (j in 0 until binding.variantGroup.childCount) {
+//                    val childVariant = binding.variantGroup.getChildAt(j) as TextView
+//                    if(childAnswer.tag == childVariant.tag) {
+//                        childAnswer.text = "";
+//                        childVariant.visible()
+//                        answerState--;
+//
+//                    }
+//                }
+//            }
+//        }
     }
 }
