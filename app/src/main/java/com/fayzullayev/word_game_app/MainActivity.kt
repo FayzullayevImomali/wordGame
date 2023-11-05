@@ -93,6 +93,7 @@ class MainActivity : AppCompatActivity() {
         var answerState = 0
         var answerControl = 0
         var tempState = 0
+        var indexAnswer = 0;
 
         val answerSize = gameController.getAnsSize()
         for (i in 0 until  binding.variantGroup.childCount) {
@@ -102,7 +103,7 @@ class MainActivity : AppCompatActivity() {
 
             variant.setOnClickListener{
                 if(answerState < answerSize ) {
-
+                    if(tempState == 0) answerState = 0
                     variant.inVisible()
                     val letter = variant.text
                     val textView =  binding.answerGroup.getChildAt(answerState) as TextView
@@ -128,6 +129,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+
          //Return letter's to own place
         for (i in 0 until binding.answerGroup.childCount) {
             val answerField = binding.answerGroup.getChildAt(i) as TextView
@@ -136,7 +138,6 @@ class MainActivity : AppCompatActivity() {
             answerField.setOnClickListener {
                 if(answerField.text != "") {
                     answerField.text = ""
-//               answerField.text  = (answerField.id).toString();
                     val indicator = answerField.tag.toString().toInt();
                     val variantKeyboard = binding.variantGroup.getChildAt(indicator) as TextView
                     if(variantKeyboard.visibility == View.INVISIBLE) {
@@ -144,16 +145,18 @@ class MainActivity : AppCompatActivity() {
                         answerControl = answerField.tag.toString().toInt()
                         answerState --;
                         tempState--;
-                        if(answerState != answerControl) {
+                        if(answerState != answerControl ) {
                             answerState = answerControl
                         }
-                        Log.d("taaaag", "loadAction: " + answerState);
+                        Log.d("taaaag", "loadAction: " + tempState);
 
                     }
                 }
             }
 
         }
+
+
 
 //        for(i in 0 until binding.answerGroup.childCount) {
 //            val childAnswer = binding.answerGroup.getChildAt(i) as TextView
