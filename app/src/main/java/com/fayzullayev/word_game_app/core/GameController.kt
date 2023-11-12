@@ -10,6 +10,7 @@ class GameController(private val data: ArrayList<GameModel>) {
 
     fun getCurrentLevelData():GameModel {
         return data[currentLevel]
+
     }
 
 

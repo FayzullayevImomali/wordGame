@@ -1,31 +1,26 @@
 package com.fayzullayev.word_game_app
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.GridLayout
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.view.forEach
 import androidx.core.view.forEachIndexed
 import com.fayzullayev.word_game_app.core.GameController
-import com.fayzullayev.word_game_app.core.GameModel
 import com.fayzullayev.word_game_app.core.LocalData
+import com.fayzullayev.word_game_app.core.cache.Cache
 import com.fayzullayev.word_game_app.core.util.gone
 import com.fayzullayev.word_game_app.core.util.inVisible
 import com.fayzullayev.word_game_app.core.util.visible
 import com.fayzullayev.word_game_app.databinding.ActivityMainBinding
-import org.w3c.dom.Text
 import java.lang.StringBuilder
-import kotlin.math.sign
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
 
     private lateinit var binding :ActivityMainBinding
     private lateinit var gameController: GameController
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,7 +62,7 @@ class MainActivity : AppCompatActivity() {
 
         val answerSize = gameController.getAnsSize()
         binding.answerGroup.forEachIndexed { index, _ ->
-            var childAt = binding.answerGroup.getChildAt(index) as TextView
+            val childAt = binding.answerGroup.getChildAt(index) as TextView
             if(index < answerSize) {
                 childAt.visible()
             } else {
@@ -77,7 +72,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.variantGroup.forEachIndexed{index , _ ->
-            var child = binding.variantGroup.getChildAt(index) as TextView
+            val child = binding.variantGroup.getChildAt(index) as TextView
             val letter = gameController.getVariant()[index]
             child.text = letter.toString().uppercase()
             child.tag = index
@@ -115,7 +110,17 @@ class MainActivity : AppCompatActivity() {
 
                     if(answerState == answerSize) {
                        if(gameController.isFinish()) {
-                           Toast.makeText(this,"O'yin tugadi",Toast.LENGTH_SHORT).show()
+                           binding.dialogWindow.visible()
+                           binding.restartYES.setOnClickListener {
+                               loadView();
+                               loadAction()
+                               binding.dialogWindow.gone()
+                           }
+
+                           binding.restartNO.setOnClickListener {
+                              val intent  = Intent(this, ResultActivity::class.java)
+                               startActivity(intent)
+                           }
                         } else {
                            val userAnswer = getUserAnswer()
                            if(gameController.checkAnswer(userAnswer)){
@@ -149,7 +154,6 @@ class MainActivity : AppCompatActivity() {
                             answerState = answerControl
                         }
                         Log.d("taaaag", "loadAction: " + tempState);
-
                     }
                 }
             }
@@ -173,4 +177,15 @@ class MainActivity : AppCompatActivity() {
 //            }
 //        }
     }
+
+
+
+    override fun setTheme() {
+        when (Cache.getObject().getTheme()) {
+            0 -> {binding.root.setBackgroundResource(R.drawable.bg_4)}
+            1 -> {binding.root.setBackgroundResource(R.drawable.bg_5)}
+            2 -> {binding.root.setBackgroundResource(R.drawable.bg_6)}
+        }
+    }
+
 }

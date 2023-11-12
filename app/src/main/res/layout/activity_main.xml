@@ -76,11 +76,66 @@
 
         </GridLayout>
 
+        <androidx.cardview.widget.CardView
+            android:id="@+id/dialogWindow"
+            android:visibility="gone"
+            android:layout_width="300dp"
+            android:layout_height="200dp"
+            app:cardCornerRadius="20dp"
+            android:layout_gravity="center">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Word Game App"
+                    android:letterSpacing=".1"
+                    android:textStyle="bold"
+                    android:textColor="#9C27B0"
+                    android:gravity="center"
+                    android:layout_marginTop="20dp"
+                    android:textSize="22sp"/>
+                <TextView
+                    android:layout_marginTop="30dp"
+                    android:textColor="#9C27B0"
+                    android:textStyle="bold"
+                    android:letterSpacing=".1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:text="The game finished do you want start"
+                    android:textSize="16sp"/>
+
+                <FrameLayout
+                    android:layout_marginTop="15dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <Button
+                        android:id="@+id/restartYES"
+                        android:layout_marginStart="30dp"
+                        android:layout_gravity="top|start"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="YES"/>
+
+                    <Button
+                        android:id="@+id/restartNO"
+                        android:layout_gravity="end"
+                        android:layout_marginEnd="30dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="NO"/>
+                </FrameLayout>
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
     </FrameLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:background="#A8A"
         android:gravity="top|center"
         android:layout_height="0dp"
         android:layout_weight="0.8"
@@ -152,18 +207,8 @@
             style="@style/Keyboard"
             android:text=""/>
 
-
-
-
-
-
-
-
-
         </GridLayout>
 
-
     </LinearLayout>
-
 
 </LinearLayout>
